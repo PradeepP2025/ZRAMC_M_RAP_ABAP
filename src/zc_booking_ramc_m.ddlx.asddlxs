@@ -38,12 +38,18 @@ annotate view ZC_booking_ramc_m with
   @UI.lineItem: [{ position: 30  }]
   @UI.identification: [ { position: 30 } ]
   @Search.defaultSearchElement:true
+  @Consumption.valueHelpDefinition:[{ entity: { name: '/DMO/I_Customer',
+                                                element: 'CustomerID'}}]
   CustomerId;
   @UI.lineItem: [{ position: 40  }]
   @UI.identification: [ { position: 40 } ]
+@Consumption.valueHelpDefinition: [ { entity: { name: '/DMO/I_Connection',
+                                                  element: 'AirlineID'} } ]
   CarrierId;
   @UI.lineItem: [{ position: 50  }]
   @UI.identification: [ { position: 50 } ]
+  @Consumption.valueHelpDefinition: [ { entity: { name: '/DMO/I_Connection',
+                                                  element: 'ConnectionID'} } ]
   ConnectionId;
   @UI.lineItem: [{ position: 60  }]
   @UI.identification: [ { position: 60 } ]
@@ -51,9 +57,13 @@ annotate view ZC_booking_ramc_m with
   @UI.lineItem: [{ position: 70  }]
   @UI.identification: [ { position: 70 } ]
   FlightPrice;
-  // currency_code;
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'I_Currency',
+                                                  element: 'Currency'} } ]
+  CurrencyCode;
   @UI.lineItem: [{ position: 80  }]
   @UI.identification: [ { position: 80 } ]
+  @Consumption.valueHelpDefinition: [ { entity: { name: '/DMO/I_Booking_Status_VH',
+                                                  element: 'BookingStatus'} } ]
   BookingStatus;
 
 

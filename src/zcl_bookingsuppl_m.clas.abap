@@ -1,0 +1,5 @@
+CLASS zcl_bookingsuppl_m DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zi_travel_ramc_m.
+ENDCLASS.
+
+CLASS zcl_bookingsuppl_m IMPLEMENTATION.
+ENDCLASS.
