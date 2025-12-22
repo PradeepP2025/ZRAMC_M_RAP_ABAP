@@ -1,0 +1,5 @@
+@EndUserText.label: 'Approver Application'
+define service ZUI_Travel_Approver_ramc_m {
+  expose ZC_travel_approve_ramc_m;
+  expose ZC_booking_approve_ramc_m;
+}

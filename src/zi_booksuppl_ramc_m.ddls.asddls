@@ -1,8 +1,8 @@
-@AbapCatalog.viewEnhancementCategory: [#NONE]
+    @AbapCatalog.viewEnhancementCategory: [#NONE]
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Booking supplment Interface view'
 @Metadata.ignorePropagatedAnnotations: true
-@Search.searchable: true
+
 define view entity ZI_booksuppl_ramc_m
   as select from zbooksuppl_ram_m
   association        to parent ZI_booking_ramc_m as _Booking        on  $projection.TravelId  = _Booking.TravelId
@@ -12,6 +12,7 @@ define view entity ZI_booksuppl_ramc_m
   association [1..1] to /DMO/I_Supplement        as _Supplement     on  $projection.SupplementId = _Supplement.SupplementID
   association [1..*] to /DMO/I_SupplementText    as _SupplementText on  $projection.SupplementId = _SupplementText.SupplementID
 {
+
   key travel_id             as TravelId,
   key booking_id            as BookingId,
   key booking_supplement_id as BookingSupplementId,

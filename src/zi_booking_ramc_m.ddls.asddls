@@ -2,11 +2,10 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Booking Interface view managed'
 @Metadata.ignorePropagatedAnnotations: true
-@Search.searchable: true
 define view entity ZI_booking_ramc_m
   as select from zbooking_ramc_m
+   association        to parent ZI_travel_ramc_m         as _Travel  on  $projection.TravelId = _Travel.TravelId
   composition [0..*] of ZI_booksuppl_ramc_m      as _BookingSupp
-  association        to parent ZI_travel_ramc_m         as _Travel  on  $projection.TravelId = _Travel.TravelId
   association [1..1] to /DMO/I_Carrier           as _Carrier        on  $projection.CarrierId = _Carrier.AirlineID
   association [1..1] to /DMO/I_Customer          as _Customer       on  $projection.CustomerId = _Customer.CustomerID
   association [1..1] to /DMO/I_Connection        as _Connection     on  $projection.CarrierId    = _Connection.AirlineID

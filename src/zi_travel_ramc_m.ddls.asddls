@@ -2,8 +2,7 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Travel root entity'
 @Metadata.ignorePropagatedAnnotations: true
-@Search.searchable: true
-define root view entity ZI_travel_ramc_m
+define root view entity zi_travel_ramc_m
   as select from ztravel_ramc_m
   composition [0..*] of ZI_booking_ramc_m        as _Booking
   association [0..1] to /DMO/I_Agency            as _Agency   on $projection.AgencyId = _Agency.AgencyID
@@ -11,7 +10,7 @@ define root view entity ZI_travel_ramc_m
   association [0..1] to I_Currency               as _Currency on $projection.CurrencyCode = _Currency.Currency
   association [0..1] to /DMO/I_Overall_Status_VH as _Status   on $projection.OverallStatus = _Status.OverallStatus
 {
-      @Search.defaultSearchElement: true
+
   key travel_id       as TravelId,
       agency_id       as AgencyId,
       customer_id     as CustomerId,
@@ -27,6 +26,7 @@ define root view entity ZI_travel_ramc_m
       created_by      as CreatedBy,
       created_at      as CreatedAt,
       last_changed_by as LastChangedBy,
+      @Semantics.systemDateTime.lastChangedAt: true
       last_changed_at as LastChangedAt,
       _Agency,
       _Customer,

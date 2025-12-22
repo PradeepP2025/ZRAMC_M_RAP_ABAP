@@ -109,6 +109,22 @@ CLASS lhc_zi_travel_ramc_m IMPLEMENTATION.
     ENDLOOP.
   ENDMETHOD.
   METHOD acceptTravel.
+
+    MODIFY ENTITIES OF zi_travel_ramc_m IN LOCAL MODE
+
+    ENTITY zi_travel_ramc_m
+    UPDATE FIELDS ( OverallStatus )
+    WITH VALUE #( FOR ls_keys IN keys ( %tky = ls_keys-%tky
+                                        OverallStatus = 'A' ) ).
+
+    READ ENTITIES OF zi_travel_ramc_m IN LOCAL MODE
+    ENTITY zi_travel_ramc_m
+    ALL FIELDS WITH CORRESPONDING #( keys )
+    RESULT DATA(lt_result).
+
+    result = VALUE #( FOR ls_result IN lt_result ( %tky = ls_result-%tky
+                                                   %param = ls_result ) ).
+
   ENDMETHOD.
 
   METHOD copyTravel.
@@ -116,8 +132,6 @@ CLASS lhc_zi_travel_ramc_m IMPLEMENTATION.
     DATA: it_travel        TYPE TABLE FOR CREATE zi_travel_ramc_m,
           it_booking_cba   TYPE TABLE FOR CREATE zi_travel_ramc_m\_Booking,
           it_booksuppl_cba TYPE TABLE FOR CREATE zi_booking_ramc_m\_BookingSupp.
-
-
 
     READ TABLE keys ASSIGNING FIELD-SYMBOL(<fs_without_cids>) WITH KEY %cid = ' '.
 
@@ -139,10 +153,7 @@ CLASS lhc_zi_travel_ramc_m IMPLEMENTATION.
            ALL FIELDS WITH CORRESPONDING #( lt_booking_r )
            RESULT DATA(lt_booking_supp_r).
 
-
-
     LOOP AT lt_travel_r ASSIGNING FIELD-SYMBOL(<ls_travel_r>).
-
 
       APPEND VALUE #(  %cid =  keys[ KEY entity travelid = <ls_travel_r>-travelid ]-%cid
                          %data = CORRESPONDING #( <ls_travel_r> EXCEPT travelid ) )
@@ -154,7 +165,6 @@ CLASS lhc_zi_travel_ramc_m IMPLEMENTATION.
 
       APPEND VALUE #( %cid_ref = <ls_travel>-%cid  ) TO it_booking_cba ASSIGNING FIELD-SYMBOL(<it_booking>).
 
-
       LOOP AT lt_booking_r ASSIGNING FIELD-SYMBOL(<ls_booking_r>) USING KEY entity
                                                                   WHERE travelid = <ls_travel_r>-travelid.
 
@@ -165,8 +175,6 @@ CLASS lhc_zi_travel_ramc_m IMPLEMENTATION.
         <ls_booking_n>-BookingStatus = 'N'.
 
         APPEND VALUE #( %cid_ref = <ls_booking_n>-%cid ) TO it_booksuppl_cba ASSIGNING FIELD-SYMBOL(<ls_booksupp>).
-
-
         LOOP AT lt_booking_supp_r ASSIGNING FIELD-SYMBOL(<ls_booking_supp_r>) USING KEY entity
                  WHERE travelid = <ls_travel_r>-TravelId AND bookingid = <ls_booking_r>-BookingId.
 
@@ -194,13 +202,24 @@ CLASS lhc_zi_travel_ramc_m IMPLEMENTATION.
        MAPPED DATA(it_mapped).
 
     mapped-zi_travel_ramc_m = it_mapped-zi_travel_ramc_m.
-
-
-
-
   ENDMETHOD.
 
   METHOD rejectTravel.
+
+    MODIFY ENTITIES OF zi_travel_ramc_m IN LOCAL MODE
+
+     ENTITY zi_travel_ramc_m
+     UPDATE FIELDS ( OverallStatus )
+     WITH VALUE #( FOR ls_keys IN keys ( %tky = ls_keys-%tky
+                                         OverallStatus = 'X' ) ).
+
+    READ ENTITIES OF zi_travel_ramc_m IN LOCAL MODE
+    ENTITY zi_travel_ramc_m
+    ALL FIELDS WITH CORRESPONDING #( keys )
+    RESULT DATA(lt_result).
+
+    result = VALUE #( FOR ls_result IN lt_result ( %tky = ls_result-%tky
+                                                   %param = ls_result ) ).
   ENDMETHOD.
 
 ENDCLASS.
